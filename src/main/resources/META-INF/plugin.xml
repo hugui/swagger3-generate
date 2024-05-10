@@ -1,0 +1,55 @@
+<idea-plugin>
+    <id>com.gustavo.swagger.generate</id>
+    <name>Swagger Generator</name>
+    <vendor>Class</vendor>
+
+    <description><![CDATA[
+      Generate Swagger Annotation instantly.
+
+      * Method usage
+      * Field usage with Javax Validation
+      * Class usage
+
+      <a href="https://github.com/gusthavosouza/swagger-generate">Swagger Generate and docs</a><br>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+
+    <actions>
+        <action id="AllSwaggerToolAction" class="com.gustavo.action.AllSwaggerToolAction" text="SwaggerGenerate"
+                description="SwaggerGenerate">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+
+        <action id="SwaggerToolActionGET" class="com.gustavo.action.SwaggerActionHttpGet" text="Swagger GET"
+                description="Create relative swagger annotations for current cursor selection">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+
+        <action id="SwaggerToolActionGETList" class="com.gustavo.action.SwaggerActionHttpGetList" text="Swagger GET List"
+                description="Create relative swagger annotations for current cursor selection">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+
+        <action id="SwaggerToolActionPOST" class="com.gustavo.action.SwaggerActionHttpPost" text="Swagger POST"
+                description="Create relative swagger annotations for current cursor selection">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+
+        <action id="SwaggerToolActionPUT" class="com.gustavo.action.SwaggerActionHttpPut" text="Swagger PUT"
+                description="Create relative swagger annotations for current cursor selection">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+
+        <action id="SwaggerToolActionDELETE" class="com.gustavo.action.SwaggerActionHttpDelete" text="Swagger DELETE"
+                description="Create relative swagger annotations for current cursor selection">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
+
+    </actions>
+</idea-plugin>
