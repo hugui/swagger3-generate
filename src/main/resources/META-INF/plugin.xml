@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.gustavo.swagger.generate</id>
-    <name>Swagger Generator</name>
+    <name>Java Swagger 3 Generator</name>
     <vendor>Class</vendor>
 
     <description><![CDATA[

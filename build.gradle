@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.gustavo'
-version '0.0.1'
+version '0.0.3'
 
 repositories {
     mavenLocal()
@@ -29,7 +29,7 @@ patchPluginXml {
     untilBuild = ''
     changeNotes =
         """
-        Initial release
+        Adds Http method to Swagger Generator
         """
 }
 test {

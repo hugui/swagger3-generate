@@ -3,12 +3,14 @@ package com.gustavo.constants;
 public interface SwaggerAnnotationsText {
      String GET_ANNOTATION_TEXT = """
             @Operation(summary = "get summary", description = "Get description",
+                        method = "GET",
                         requestBody = @RequestBody(content = {@Content(schema = @Schema(implementation = DTO.class))}),
                         responses = @ApiResponse(responseCode = "200", description = "Ok", content = {@Content(schema = @Schema(implementation = ResponseDto.class))}))
             """;
 
      String GET_LIST_ANNOTATION_TEXT = """
 @Operation(summary = "list of your dto with filters", description = "List something with filter in query",
+            method = "GET",
             parameters = {
                     @Parameter(name = "orderBy", in = ParameterIn.QUERY, description = "Order by orderBy", schema = @Schema(implementation = String.class)),
             },
@@ -20,6 +22,7 @@ public interface SwaggerAnnotationsText {
      String POST_ANNOTATION_TEXT =
             """
            @Operation(summary = "Your summary", description = "Your description",
+                            method = "POST",
                             requestBody = @RequestBody(content = {@Content(schema = @Schema(implementation = PostDto.class))}),
                             responses = @ApiResponse(responseCode = "200", description = "Ok", content = {@Content(schema = @Schema(implementation = ResponseDto.class))})
                     )
@@ -27,6 +30,7 @@ public interface SwaggerAnnotationsText {
 
      String PUT_ANNOTATION_TEXT = """
            @Operation(summary = "update", description = "update description",
+                              method = "PUT",
                                      requestBody = @RequestBody(content = {@Content(schema = @Schema(implementation = Dto.class))}),
                                      responses = @ApiResponse(responseCode = "200", description = "Ok", content = {@Content(schema = @Schema(implementation = ResponseDto.class))})
                              )
@@ -34,7 +38,7 @@ public interface SwaggerAnnotationsText {
 
      String DELETE_ANNOTATION_TEXT =
             """
-            @Operation(summary = "Delete operation", description = "Request to delete something", responses = @ApiResponse(responseCode = "200", description = "Ok"))
+            @Operation(summary = "Delete operation", description = "Request to delete something", method = "DELETE", responses = @ApiResponse(responseCode = "200", description = "Ok"))
             """;
 
 }
