@@ -2,16 +2,21 @@
     <id>com.gustavo.swagger.generate</id>
     <name>Java Swagger 3 Generator</name>
     <vendor>Class</vendor>
-
     <description><![CDATA[
-      Generate Swagger Annotation instantly.
-
-      * Method usage
-      * Field usage with Javax Validation
-      * Class usage
-
-      <a href="https://github.com/gusthavosouza/swagger-generate">Swagger Generate and docs</a><br>
-    ]]></description>
+    <h1>Java Swagger 3 Generator plugin</h1>
+<br/>
+<b>A plugin that adds support for Swagger 3 - <a href="https://github.com/gusthavosouza/swagger-generate">Swagger Generate and docs</a><br></b>
+<br/>
+<b>Features</b>
+<ul>
+  <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#operation-annotations">@Operation</a></li>
+  <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#schema">@Schema</a></li>
+  <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#tag">@Tag</a></li>
+  <li>Javax / Jakarta Annotation Support - Auto map required fields for @Schema</li>
+  <li>Annotations actions Swagger GET, POST, PUT, DELETE</li>
+</ul>
+<br/>]]>
+    </description>
 
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.java</depends>

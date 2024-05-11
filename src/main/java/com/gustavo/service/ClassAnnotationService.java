@@ -29,7 +29,7 @@ public class ClassAnnotationService {
     private boolean hasAnyApiAnnotation(PsiClass psiClass) {
         var annotations = Arrays.stream(Optional.of(psiClass.getAnnotations())
                 .orElse(new PsiAnnotation[]{}));
-        return annotations.anyMatch(a -> a.getQualifiedName() != null && a.getQualifiedName().contains("io.swagger.v3.oas.annotations."));
+        return annotations.anyMatch(a -> a.getQualifiedName() != null && a.getQualifiedName().contains("io.swagger.v3.oas.annotations"));
     }
 
     public void generateClassAnnotation(PsiClass psiClass) {

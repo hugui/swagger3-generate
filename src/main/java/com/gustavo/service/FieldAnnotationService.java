@@ -19,14 +19,14 @@ public class FieldAnnotationService {
 
     public void generateFieldAnnotation(PsiField psiField) {
         var classType = PsiUtil.resolveClassInClassTypeOnly(psiField.getType());
-        boolean required = classType == null || classType.isInterface() || hasAnyJavaxValidationAnnotation(psiField);
+        boolean required = classType == null || classType.isInterface() || hasAnyJavaxOrJakartaValidationAnnotation(psiField);
         annotationWriteService.doWrite("Schema", "io.swagger.v3.oas.annotations.media.Schema", String.format("@Schema(required = %s)", required), psiField);
     }
 
-    private boolean hasAnyJavaxValidationAnnotation(PsiField psiField) {
+    private boolean hasAnyJavaxOrJakartaValidationAnnotation(PsiField psiField) {
         var annotations = Arrays.stream(ofNullable(psiField.getModifierList())
                 .map(PsiAnnotationOwner::getAnnotations)
                 .orElse(new PsiAnnotation[]{}));
-        return annotations.anyMatch(a -> a.getQualifiedName() != null && a.getQualifiedName().contains("javax.validation.constraints"));
+        return annotations.anyMatch(a -> a.getQualifiedName() != null && (a.getQualifiedName().contains("javax.validation") || a.getQualifiedName().contains("jakarta.validation")));
     }
 }
