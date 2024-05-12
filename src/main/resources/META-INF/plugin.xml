@@ -3,18 +3,35 @@
     <name>Java Swagger 3 Generator</name>
     <vendor>Class</vendor>
     <description><![CDATA[
-    <h1>Java Swagger 3 Generator plugin</h1>
-<br/>
-<b>A plugin that adds support for Swagger 3 - <a href="https://github.com/gusthavosouza/swagger-generate">Swagger Generate and docs</a><br></b>
-<br/>
-<b>Features</b>
-<ul>
-  <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#operation-annotations">@Operation</a></li>
-  <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#schema">@Schema</a></li>
-  <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#tag">@Tag</a></li>
-  <li>Javax / Jakarta Annotation Support - Auto map required fields for @Schema</li>
-  <li>Annotations actions Swagger GET, POST, PUT, DELETE</li>
-</ul>
+
+<h1>Java Swagger 3 Generator plugin</h1>
+    <br/>
+    <h2> Support for Spring, JAX-RS, PlayFramework, and other Java frameworks <a href="https://github.com/gusthavosouza/swagger-generate">Java Swagger 3 Generator and docs</a></h2>
+    <br/>
+    <b>Features</b>
+        <ul>
+            <li>Out of the box mapping for @RestController, Controllers, Models, Dtos, Services...</li>
+            <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#operation-annotations">@Operation</a></li>
+            <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#schema">@Schema</a></li>
+            <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#tag">@Tag</a></li>
+            <li>Javax / Jakarta Annotation Support - Auto map required fields for @Schema</li>
+            <li>Annotations actions Swagger GET, POST, PUT, DELETE</li>
+        </ul>
+        <b> Spring and JAX-RS support - SwaggerGenerate Action </b>
+        <p> By default running SwaggerGenerate Action it will identify any corresponding annotation and generate the correct Swagger
+        <ul>
+            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/GET.html">@GET </a></li>
+            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/POST.html">@POST </a></li>
+            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/PUT.html">@PUT </a></li>
+            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/DELETE.html">@DELETE </a></li>
+        </ul>
+        <b>Spring support - Swagger Action </b>
+        <ul>
+            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html">@GetMapping </a></li>
+            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html">@PostMapping </a></li>
+            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html">@PutMapping </a></li>
+            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/DeleteMapping.html">@DeleteMapping </a></li>
+        </ul>
 <br/>]]>
     </description>
 
