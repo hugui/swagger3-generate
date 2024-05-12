@@ -4,6 +4,9 @@ import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiMethod;
 import com.gustavo.action.SwaggerToolAction;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 public class MethodAnnotationService {
 
     private final AnnotationWriteService annotationWriteService;
@@ -13,11 +16,6 @@ public class MethodAnnotationService {
     }
 
     public void generateMethodAnnotation(PsiMethod psiMethod, SwaggerToolAction.SwaggerOperation operation) {
-        PsiAnnotation swaggerErrors = psiMethod.getModifierList().findAnnotation("controllers.extranet.users.CommonSwaggerErrors");
-        if (swaggerErrors == null) {
-            annotationWriteService.doWrite("CommonSwaggerErrors", "controllers.extranet.users.CommonSwaggerErrors", "@CommonSwaggerErrors", psiMethod);
-        }
-
         PsiAnnotation apiOperationExist = psiMethod.getModifierList().findAnnotation("io.swagger.v3.oas.annotations.Operation");
         if (apiOperationExist == null) {
             annotationWriteService.doWrite("Operation", "io.swagger.v3.oas.annotations.Operation", operation.getAnnotationText(), psiMethod);
@@ -25,6 +23,32 @@ public class MethodAnnotationService {
     }
 
     public void generateMethodAnnotation(PsiMethod psiMethod) {
-        generateMethodAnnotation(psiMethod, SwaggerToolAction.SwaggerOperation.GET);
+        var annotations = Arrays.stream(psiMethod.getAnnotations());
+        var operation = autoQualifyByAnnotationName(annotations);
+        generateMethodAnnotation(psiMethod, operation);
+    }
+
+    private SwaggerToolAction.SwaggerOperation autoQualifyByAnnotationName(Stream<PsiAnnotation> annotations) {
+        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.GET)) {
+            return SwaggerToolAction.SwaggerOperation.GET_LIST;
+        }
+
+        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.POST)) {
+            return SwaggerToolAction.SwaggerOperation.POST;
+        }
+
+        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.PUT)) {
+            return SwaggerToolAction.SwaggerOperation.PUT;
+        }
+
+        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.DELETE)) {
+            return SwaggerToolAction.SwaggerOperation.DELETE;
+        }
+
+        return SwaggerToolAction.SwaggerOperation.GET;
+    }
+
+    private boolean matchHttpMethodAnnotation(Stream<PsiAnnotation> annotations, SwaggerToolAction.SwaggerOperation operation) {
+        return annotations.anyMatch(a -> a.getQualifiedName() != null && a.getQualifiedName().toLowerCase().contains(operation.name().toLowerCase()));
     }
 }

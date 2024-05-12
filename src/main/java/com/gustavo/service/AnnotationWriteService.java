@@ -12,7 +12,6 @@ public class AnnotationWriteService {
 
     private final Project project;
 
-
     public AnnotationWriteService(Project project) {
         this.project = project;
     }
