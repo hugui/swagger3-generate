@@ -4,7 +4,6 @@ public interface SwaggerAnnotationsText {
      String GET_ANNOTATION_TEXT = """
             @Operation(summary = "get summary", description = "Get description",
                         method = "GET",
-                        requestBody = @RequestBody(content = {@Content(schema = @Schema(implementation = DTO.class))}),
                         responses = @ApiResponse(responseCode = "200", description = "Ok", content = {@Content(schema = @Schema(implementation = ResponseDto.class))}))
             """;
 
