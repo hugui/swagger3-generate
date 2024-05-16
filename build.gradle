@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.gustavo'
-version '0.0.5'
+version '0.0.7'
 
 repositories {
     mavenLocal()
@@ -29,7 +29,7 @@ patchPluginXml {
     untilBuild = ''
     changeNotes =
         """
-        Adds auto mapping for Swagger Generate action, now we can identify a controller method and generate a swagger doc for it.
+        Fix GET mapping for Swagger without parameters or request body
         """
 }
 test {

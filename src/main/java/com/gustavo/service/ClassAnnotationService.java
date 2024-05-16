@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class ClassAnnotationService {
 
-    private static final Set<String> CONTROLLER_ANNOTATION = Set.of("Controller", "RestController", "org.springframework.web.bind.annotation.RestController", "org.springframework.stereotype.Controller");
+    private static final Set<String> CONTROLLER_ANNOTATION = Set.of("Path", "javax.ws.rs.Path", "Controller", "RestController", "org.springframework.web.bind.annotation.RestController", "org.springframework.stereotype.Controller");
 
     private final AnnotationWriteService annotationWriteService;
 
@@ -38,16 +38,13 @@ public class ClassAnnotationService {
     }
 
     public static boolean isController(PsiClass psiClass) {
-        if (psiClass.getName() != null && psiClass.getName().toLowerCase().contains("controller")) {
-            return true;
-        }
         PsiAnnotation[] psiAnnotations = Objects.requireNonNull(psiClass.getModifierList()).getAnnotations();
         for (PsiAnnotation psiAnnotation : psiAnnotations) {
             if (CONTROLLER_ANNOTATION.contains(psiAnnotation.getQualifiedName())) {
                 return true;
             }
         }
-        return false;
+        return psiClass.getName() != null && psiClass.getName().toLowerCase().contains("controller");
     }
 
 }
