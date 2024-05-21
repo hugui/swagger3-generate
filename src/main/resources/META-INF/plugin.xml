@@ -53,7 +53,8 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
-        <action id="SwaggerToolActionGETList" class="com.gustavo.action.SwaggerActionHttpGetList" text="Swagger GET List"
+        <action id="SwaggerToolActionGETList" class="com.gustavo.action.SwaggerActionHttpGetList"
+                text="Swagger GET List"
                 description="Create relative swagger annotations for current cursor selection">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>

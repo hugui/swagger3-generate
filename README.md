@@ -10,13 +10,15 @@ Open IntelliJ IDEA -> plugins, search for swagger-generate, install and restart
 ## Usage
 
 - Select the classes, methods, and fields to be generated using the shortcut keys
-`alt+insert` (win) or `cmd + n` (mac) to open the menu and select SwaggerGenerate
-- 
+  `alt+insert` (win) or `cmd + n` (mac) to open the menu and select SwaggerGenerate
+-
 
 - Use the shortcut `alt+insert` (win) or `cmd + n` (mac) on the class and select SwaggerGenerate
 
 ## Example
+
 1. Generate a tag based on the Controller class name</p>
+
 ```java
 @Tag(name = {"User api"})
 public class UserController {
@@ -25,6 +27,7 @@ public class UserController {
 ```
 
 2. Generate Schema for Dto's automatically map primitive types to be required</p>
+
 ```java
 public class UserDto {
     @Schema(description = "user name")
@@ -37,6 +40,7 @@ public class UserDto {
 ```
 
 3. Generate generic mapping for methods</p>
+
 ```java
 public class UserController {
     @Operation(summary = "get summary", description = "Get description",
@@ -47,4 +51,5 @@ public class UserController {
     }
 }
 ```
+
 ![img.png](images/img.png)

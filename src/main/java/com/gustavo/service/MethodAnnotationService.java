@@ -1,8 +1,8 @@
 package com.gustavo.service;
 
+import com.gustavo.action.SwaggerToolAction;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiMethod;
-import com.gustavo.action.SwaggerToolAction;
 
 import java.util.Arrays;
 import java.util.stream.Stream;

@@ -47,7 +47,7 @@ public abstract class SwaggerToolAction extends AnAction {
     public void actionPerformed(@NotNull AnActionEvent event) {
         Project project = event.getProject();
 
-        if(Objects.isNull(project)){
+        if (Objects.isNull(project)) {
             return;
         }
 

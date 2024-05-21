@@ -1,5 +1,6 @@
 package com.gustavo.action;
 
+import com.gustavo.service.CodeGeneratorService;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -9,7 +10,6 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.psi.util.PsiUtilBase;
-import com.gustavo.service.CodeGeneratorService;
 
 public class AllSwaggerToolAction extends AnAction {
 

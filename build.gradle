@@ -8,8 +8,8 @@ version '0.0.7'
 
 repositories {
     mavenLocal()
-    maven {url "https://www.jetbrains.com/intellij-repository/releases"}
-    maven {url "https://maven.aliyun.com/repository/public"}
+    maven { url "https://www.jetbrains.com/intellij-repository/releases" }
+    maven { url "https://maven.aliyun.com/repository/public" }
     mavenCentral()
 }
 
@@ -28,7 +28,7 @@ patchPluginXml {
     sinceBuild = '211.6693'
     untilBuild = ''
     changeNotes =
-        """
+            """
         Fix GET mapping for Swagger without parameters or request body
         """
 }
