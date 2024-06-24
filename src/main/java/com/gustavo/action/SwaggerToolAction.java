@@ -59,6 +59,6 @@ public abstract class SwaggerToolAction extends AnAction {
         PsiFile psiFile = PsiUtilBase.getPsiFileInEditor(editor, project);
         PsiClass psiClass = PsiTreeUtil.findChildOfAnyType(psiFile, PsiClass.class);
         var psiElement = event.getData(CommonDataKeys.PSI_ELEMENT);
-        new CodeGeneratorService(project, psiClass).generate(psiElement, operation());
+        new CodeGeneratorService(project, psiClass, psiFile).generate(psiElement, operation());
     }
 }

@@ -1,16 +1,18 @@
 package com.gustavo.service;
 
+import com.google.common.base.Strings;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiAnnotationOwner;
-import com.intellij.psi.PsiClassType;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiType;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
+import com.intellij.psi.javadoc.PsiDocComment;
+import com.intellij.psi.javadoc.PsiDocToken;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiUtil;
 import com.intellij.psi.util.TypeConversionUtil;
+import com.gustavo.utils.CommonUtil;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import static com.intellij.psi.CommonClassNames.*;
@@ -24,7 +26,15 @@ public class FieldAnnotationService {
         this.annotationWriteService = annotationWriteService;
     }
 
-    public void generateFieldAnnotation(PsiField psiField) {
+    public void generateFieldAnnotation(Project project, PsiField psiField) {
+        PsiDocComment docComment = psiField.getDocComment();
+        String commentText = "";
+        if (docComment != null) {
+            commentText = getDocCommentText(docComment);
+        }
+        // 判断是否有 @ApiModelProperty 注解
+        String apiModelPropertyValue = getApiModelPropertyValue(psiField);
+
         var classType = PsiUtil.resolveClassInClassTypeOnly(psiField.getType());
 
         if (classType == null) {
@@ -36,7 +46,45 @@ public class FieldAnnotationService {
         var list = isPsiTypeFromList(psiField.getType(), psiField.getProject());
 
         boolean required = (classType == null || classType.isInterface() || primitive || hasAnyJavaxOrJakartaValidationAnnotation(psiField)) && !hasAnyNullableAnnotation(psiField) && !list;
-        annotationWriteService.doWrite("Schema", "io.swagger.v3.oas.annotations.media.Schema", String.format("@Schema(required = %s)", required), psiField);
+
+        StringBuilder sb = new StringBuilder("@Schema(");
+
+        String description = "";
+        if (!Strings.isNullOrEmpty(apiModelPropertyValue)) {
+            description = apiModelPropertyValue;
+        } else if (!Strings.isNullOrEmpty(commentText)) {
+            description = commentText;
+        } else {
+            // 翻译
+            String fieldName = psiField.getName();
+            try {
+                String convertedName = CommonUtil.camelCaseToSpaceSeparated(fieldName);
+                description = BaiduTranslate.translate(convertedName);
+                System.out.println("fieldName: " + fieldName+" description: " + description);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (!Strings.isNullOrEmpty(description)) {
+            sb.append("description = ").append("\"").append(description).append("\"");
+        }
+        if (required) {
+            sb.append(", required = true");
+        }
+        sb.append(")");
+        annotationWriteService.doWrite("Schema", "io.swagger.v3.oas.annotations.media.Schema", sb.toString(), psiField);
+
+        // 获取字段上的所有注解
+        PsiAnnotation[] annotations = psiField.getAnnotations();
+        for (PsiAnnotation annotation : annotations) {
+            // 判断是否是 @ApiModelProperty 注解
+            if ("io.swagger.annotations.ApiModelProperty".equals(annotation.getQualifiedName())) {
+                // 删除该注解
+                annotation.delete();
+            }
+        }
     }
 
     protected boolean isPsiTypeFromList(PsiType psiFieldType, Project project) {
@@ -84,6 +132,20 @@ public class FieldAnnotationService {
         return annotations.anyMatch(a -> a.getQualifiedName() != null && a.getQualifiedName().toLowerCase().contains("nullable"));
     }
 
+    private String getApiModelPropertyValue(PsiField field) {
+        PsiModifierList modifierList = field.getModifierList();
+        if (modifierList != null) {
+            PsiAnnotation annotation = modifierList.findAnnotation("io.swagger.annotations.ApiModelProperty");
+            if (annotation != null) {
+                PsiAnnotationMemberValue value = annotation.findAttributeValue("value");
+                if (value instanceof PsiLiteralExpression) {
+                    return ((PsiLiteralExpression) value).getValue().toString();
+                }
+            }
+        }
+        return null;
+    }
+
     private boolean hasAnyJavaxOrJakartaValidationAnnotation(PsiField psiField) {
         var annotations = Arrays.stream(ofNullable(psiField.getModifierList())
                 .map(PsiAnnotationOwner::getAnnotations)
@@ -91,4 +153,13 @@ public class FieldAnnotationService {
         return annotations.anyMatch(a -> a.getQualifiedName() != null && (a.getQualifiedName().contains("javax.validation") || a.getQualifiedName().contains("jakarta.validation")));
     }
 
+    private String getDocCommentText(PsiDocComment docComment) {
+        StringBuilder commentText = new StringBuilder();
+        for (PsiElement element : docComment.getDescriptionElements()) {
+            if (element instanceof PsiDocToken) {
+                commentText.append(element.getText());
+            }
+        }
+        return commentText.toString().trim();
+    }
 }

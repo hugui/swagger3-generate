@@ -24,6 +24,6 @@ public class AllSwaggerToolAction extends AnAction {
 
         PsiFile psiFile = PsiUtilBase.getPsiFileInEditor(editor, project);
         PsiClass psiClass = PsiTreeUtil.findChildOfAnyType(psiFile, PsiClass.class);
-        new CodeGeneratorService(project, psiClass).generate();
+        new CodeGeneratorService(project, psiClass, psiFile).generate();
     }
 }
