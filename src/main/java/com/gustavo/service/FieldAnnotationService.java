@@ -1,6 +1,10 @@
 package com.gustavo.service;
 
 import com.google.common.base.Strings;
+import com.gustavo.conf.AppSettingsComponent;
+import com.gustavo.conf.AppSettingsState;
+import com.gustavo.utils.BaiduTranslate;
+import com.intellij.codeInsight.ChangeContextUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.impl.source.PsiClassReferenceType;
@@ -17,8 +21,11 @@ import java.util.Arrays;
 
 import static com.intellij.psi.CommonClassNames.*;
 import static java.util.Optional.ofNullable;
+import com.intellij.openapi.diagnostic.Logger;
 
 public class FieldAnnotationService {
+    private static final Logger LOG = Logger.getInstance(FieldAnnotationService.class);
+
 
     private final AnnotationWriteService annotationWriteService;
 
@@ -56,6 +63,7 @@ public class FieldAnnotationService {
             description = commentText;
         } else {
             // 翻译
+
             String fieldName = psiField.getName();
             try {
                 String convertedName = CommonUtil.camelCaseToSpaceSeparated(fieldName);

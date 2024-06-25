@@ -39,7 +39,10 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-
+        <applicationConfigurable parentId="tools" instance="com.gustavo.conf.AppSettingsConfigurable"
+                                 id="com.gustavo.conf.AppSettingsConfigurable"
+                                 displayName="Swagger3 Generate Setting"/>
+        <applicationService serviceImplementation="com.gustavo.conf.AppSettingsState"/>
     </extensions>
 
     <actions>
@@ -48,7 +51,12 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
-        <action id="SwaggerToolActionGET" class="com.gustavo.action.SwaggerActionHttpGet" text="Swagger GET"
+<!--        <action id="MyAllSwaggerToolAction" class="com.gustavo.action.MyAllSwaggerToolAction" text="添加Swagger3注解"-->
+<!--                description="MyAllSwaggerToolAction">-->
+<!--            <add-to-group group-id="GenerateGroup" anchor="first"/>-->
+<!--        </action>-->
+
+        <!--<action id="SwaggerToolActionGET" class="com.gustavo.action.SwaggerActionHttpGet" text="Swagger GET"
                 description="Create relative swagger annotations for current cursor selection">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
@@ -72,7 +80,7 @@
         <action id="SwaggerToolActionDELETE" class="com.gustavo.action.SwaggerActionHttpDelete" text="Swagger DELETE"
                 description="Create relative swagger annotations for current cursor selection">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
-        </action>
+        </action>-->
 
     </actions>
 </idea-plugin>

@@ -1,18 +1,21 @@
-package com.gustavo.service;
+package com.gustavo.utils;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import com.google.common.base.Strings;
 import com.google.gson.*;
+import com.gustavo.conf.AppSettingsState;
 
 public class BaiduTranslate {
-    private static final String apiKey = "20210610000859390"; // 替换成你的百度翻译 API Key
-    private static final String secretKey = "JKSSJF5D4EMBZNw4p2Yf"; // 替换成你的百度翻译 Secret Key
+    private static final String APP_ID = "20210610000859390"; // 替换成你的百度翻译 API Key
+    private static final String SECRET_KEY = "JKSSJF5D4EMBZNw4p2Yf"; // 替换成你的百度翻译 Secret Key
     private static final String from = "en"; // 源语言，这里是英文
     private static final String to = "zh"; // 目标语言，这里是中文
 
@@ -23,13 +26,24 @@ public class BaiduTranslate {
     }
 
     public static String translate(String query) throws IOException, NoSuchAlgorithmException {
+        AppSettingsState appSettingsState = AppSettingsState.getInstance();
+
+        String appid = appSettingsState.getState().appid;
+        String secretKey = appSettingsState.getState().secretKey;
+        if (Strings.isNullOrEmpty(appid)) {
+            appid = APP_ID;
+        }
+        if (Strings.isNullOrEmpty(secretKey)) {
+            secretKey = SECRET_KEY;
+        }
+
         String apiUrl = "http://api.fanyi.baidu.com/api/trans/vip/translate";
         String salt = String.valueOf(System.currentTimeMillis());
-        String sign = generateSign(apiKey, query, salt, secretKey);
+        String sign = generateSign(appid, query, salt, secretKey);
 
         String encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8);
         String urlStr = String.format("%s?q=%s&from=%s&to=%s&appid=%s&salt=%s&sign=%s",
-                apiUrl, encodedQuery, from, to, apiKey, salt, sign);
+                apiUrl, encodedQuery, from, to, appid, salt, sign);
 
         URL url = new URL(urlStr);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -41,8 +55,13 @@ public class BaiduTranslate {
             while ((line = reader.readLine()) != null) {
                 response.append(line);
             }
+            System.out.println(response.toString());
+
             return parseTranslationResponse(response.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return query;
     }
 
     private static String generateSign(String apiKey, String query, String salt, String secretKey) throws NoSuchAlgorithmException {
