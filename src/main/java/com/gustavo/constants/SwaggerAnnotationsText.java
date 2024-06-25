@@ -1,6 +1,9 @@
 package com.gustavo.constants;
 
 public interface SwaggerAnnotationsText {
+    String SIMPLE_ANNOTATION_TEXT = """
+            @Operation(summary = "summary", description = "description"
+            """;
     String GET_ANNOTATION_TEXT = """
             @Operation(summary = "get summary", description = "Get description",
                         method = "GET",

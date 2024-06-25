@@ -1,4 +1,4 @@
-package com.gustavo.conf;
+package com.gustavo.setting;
 
 import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;

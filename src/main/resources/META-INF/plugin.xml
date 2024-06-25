@@ -1,12 +1,11 @@
 <idea-plugin>
-    <id>com.gustavo.swagger.generate</id>
-    <name>Java Swagger 3 Generator</name>
-    <vendor>Class</vendor>
+    <id>com.gustavo.swagger3.generate</id>
+    <name>Swagger3 Generator</name>
+    <vendor email="mr.guihu@gmail.com">HU</vendor>
     <description><![CDATA[
 
-<h1>Java Swagger 3 Generator plugin</h1>
-    <br/>
-    <h2> Support for Spring, JAX-RS, PlayFramework, and other Java frameworks <a href="https://github.com/gusthavosouza/swagger-generate">Java Swagger 3 Generator and docs</a></h2>
+    <h1>Java Swagger3 Generator Plugin</h1>
+    <h2> Support for Spring, JAX-RS, PlayFramework, and other Java frameworks</h2>
     <br/>
     <b>Features</b>
         <ul>
@@ -16,6 +15,10 @@
             <li><a href="https://github.com/swagger-api/swagger-core/wiki/Swagger-2.X---Annotations#tag">@Tag</a></li>
             <li>Javax / Jakarta Annotation Support - Auto map required fields for @Schema</li>
             <li>Annotations actions Swagger GET, POST, PUT, DELETE</li>
+            <li>Support upgrading Swagger2 annotations to Swagger3</li>
+            <li>Support reading field comments</li>
+            <li>Integrate with Baidu Translate</li>
+            <li>Support automatic import of jar packages</li>
         </ul>
         <b> Spring and JAX-RS support - SwaggerGenerate Action </b>
         <p> By default running SwaggerGenerate Action it will identify any corresponding annotation and generate the correct Swagger
@@ -32,6 +35,9 @@
             <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html">@PutMapping </a></li>
             <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/DeleteMapping.html">@DeleteMapping </a></li>
         </ul>
+
+        <b>Getting Started</b>
+        <li>Mac CMD + N or Windows CTRL + N</li>
 <br/>]]>
     </description>
 
@@ -39,22 +45,22 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable parentId="tools" instance="com.gustavo.conf.AppSettingsConfigurable"
-                                 id="com.gustavo.conf.AppSettingsConfigurable"
+        <applicationConfigurable parentId="tools" instance="com.gustavo.setting.AppSettingsConfigurable"
+                                 id="com.gustavo.setting.AppSettingsConfigurable"
                                  displayName="Swagger3 Generate Setting"/>
-        <applicationService serviceImplementation="com.gustavo.conf.AppSettingsState"/>
+        <applicationService serviceImplementation="com.gustavo.setting.AppSettingsState"/>
     </extensions>
 
     <actions>
-        <action id="AllSwaggerToolAction" class="com.gustavo.action.AllSwaggerToolAction" text="SwaggerGenerate"
+        <action id="AllSwaggerToolAction" class="com.gustavo.action.AllSwaggerToolAction" text="Swagger Generate"
                 description="SwaggerGenerate">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
-<!--        <action id="MyAllSwaggerToolAction" class="com.gustavo.action.MyAllSwaggerToolAction" text="添加Swagger3注解"-->
-<!--                description="MyAllSwaggerToolAction">-->
-<!--            <add-to-group group-id="GenerateGroup" anchor="first"/>-->
-<!--        </action>-->
+        <action id="SwaggerToolActionSimple" class="com.gustavo.action.SwaggerActionHttpSimple" text="Swagger Simple"
+                description="SwaggerToolActionSimple">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+        </action>
 
         <!--<action id="SwaggerToolActionGET" class="com.gustavo.action.SwaggerActionHttpGet" text="Swagger GET"
                 description="Create relative swagger annotations for current cursor selection">

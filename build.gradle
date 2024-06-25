@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.gustavo'
-version '0.0.9'
+version '0.1.0'
 
 repositories {
     mavenLocal()
@@ -30,7 +30,10 @@ patchPluginXml {
     untilBuild = ''
     changeNotes =
             """
-        Fix GET mapping for Swagger without parameters or request body
+        1. Support upgrading Swagger2 annotations to Swagger3;<br>
+        2. Support reading field comments;<br>
+        3. Integrate with Baidu Translate;<br>
+        4. Support automatic import of jar packages.
         """
 }
 test {

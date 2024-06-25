@@ -29,23 +29,25 @@ public class MethodAnnotationService {
     }
 
     private SwaggerToolAction.SwaggerOperation autoQualifyByAnnotationName(Stream<PsiAnnotation> annotations) {
-        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.GET)) {
-            return SwaggerToolAction.SwaggerOperation.GET_LIST;
-        }
+//        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.GET)) {
+//            return SwaggerToolAction.SwaggerOperation.GET_LIST;
+//        }
+//
+//        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.POST)) {
+//            return SwaggerToolAction.SwaggerOperation.POST;
+//        }
+//
+//        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.PUT)) {
+//            return SwaggerToolAction.SwaggerOperation.PUT;
+//        }
+//
+//        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.DELETE)) {
+//            return SwaggerToolAction.SwaggerOperation.DELETE;
+//        }
+//
+//        return SwaggerToolAction.SwaggerOperation.GET;
 
-        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.POST)) {
-            return SwaggerToolAction.SwaggerOperation.POST;
-        }
-
-        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.PUT)) {
-            return SwaggerToolAction.SwaggerOperation.PUT;
-        }
-
-        if (matchHttpMethodAnnotation(annotations, SwaggerToolAction.SwaggerOperation.DELETE)) {
-            return SwaggerToolAction.SwaggerOperation.DELETE;
-        }
-
-        return SwaggerToolAction.SwaggerOperation.GET;
+        return SwaggerToolAction.SwaggerOperation.SIMPLE;
     }
 
     private boolean matchHttpMethodAnnotation(Stream<PsiAnnotation> annotations, SwaggerToolAction.SwaggerOperation operation) {

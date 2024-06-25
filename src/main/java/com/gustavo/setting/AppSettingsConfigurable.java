@@ -1,4 +1,4 @@
-package com.gustavo.conf;
+package com.gustavo.setting;
 
 
 import com.intellij.openapi.options.Configurable;

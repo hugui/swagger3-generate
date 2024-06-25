@@ -19,6 +19,7 @@ import static com.gustavo.constants.SwaggerAnnotationsText.GET_ANNOTATION_TEXT;
 import static com.gustavo.constants.SwaggerAnnotationsText.GET_LIST_ANNOTATION_TEXT;
 import static com.gustavo.constants.SwaggerAnnotationsText.POST_ANNOTATION_TEXT;
 import static com.gustavo.constants.SwaggerAnnotationsText.PUT_ANNOTATION_TEXT;
+import static com.gustavo.constants.SwaggerAnnotationsText.SIMPLE_ANNOTATION_TEXT;
 
 
 public abstract class SwaggerToolAction extends AnAction {
@@ -26,6 +27,7 @@ public abstract class SwaggerToolAction extends AnAction {
     abstract SwaggerOperation operation();
 
     public enum SwaggerOperation {
+        SIMPLE(SIMPLE_ANNOTATION_TEXT),
         GET(GET_ANNOTATION_TEXT),
         GET_LIST(GET_LIST_ANNOTATION_TEXT),
         POST(POST_ANNOTATION_TEXT),

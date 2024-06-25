@@ -20,8 +20,8 @@ public class ClassAnnotationService {
 
     public void generateClassAnnotation(PsiClass psiClass, boolean isController) {
         if (isController && !hasAnyApiAnnotation(psiClass)) {
-            var className = psiClass.getQualifiedName();
-            var annotationFromText = String.format("@Tag(name = %s)", className);
+            var className = psiClass.getName();
+            var annotationFromText = String.format("@Tag(name = \"%s\")", className);
             annotationWriteService.doWrite("Tag", "io.swagger.v3.oas.annotations.tags.Tag", annotationFromText, psiClass);
         }
     }

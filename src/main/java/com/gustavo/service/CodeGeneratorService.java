@@ -6,6 +6,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
 
+import java.util.Objects;
+
 public class CodeGeneratorService {
 
     private final Project project;
@@ -29,7 +31,12 @@ public class CodeGeneratorService {
                 for (PsiMethod psiMethod : methods) {
                     new MethodAnnotationService(writeService).generateMethodAnnotation(psiMethod);
                 }
-                return;
+                if (psiFile instanceof PsiJavaFile javaFile) {
+                    // 导包
+                    addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.tags.Tag");
+                    addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.Operation");
+                }
+                    return;
             }
 
             PsiField[] field = psiClass.getAllFields();
@@ -50,9 +57,25 @@ public class CodeGeneratorService {
                     new FieldAnnotationService(writeService).generateFieldAnnotation(project, psiField);
                 }
             }
-            // 导包
             if (psiFile instanceof PsiJavaFile javaFile) {
-                addImportStatement(project, javaFile);
+                // 导包
+                addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.media.Schema");
+
+                String description = psiClass.getName();
+                // 获取类上的所有注解
+                PsiAnnotation[] annotations = psiClass.getAnnotations();
+                for (PsiAnnotation annotation : annotations) {
+                    if ("io.swagger.annotations.ApiModel".equals(annotation.getQualifiedName())) {
+                        PsiAnnotationMemberValue value = annotation.findAttributeValue("value");
+                        if (value instanceof PsiLiteralExpression) {
+                            description = Objects.requireNonNull(((PsiLiteralExpression) value).getValue()).toString();
+                        }
+                        break;
+                    }
+                }
+
+                // 加注解
+                writeService.doWrite("Schema", "io.swagger.v3.oas.annotations.media.Schema", "@Schema(" + "description = " + "\"" + description + "\"", psiClass);
             }
         });
     }
@@ -64,10 +87,20 @@ public class CodeGeneratorService {
 
             if (psiElement instanceof PsiClass clazz) {
                 new ClassAnnotationService(writeService).generateClassAnnotation(clazz);
+
+                if (psiFile instanceof PsiJavaFile javaFile) {
+                    // 导包
+                    addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.tags.Tag");
+                }
             }
 
             if (psiElement instanceof PsiMethod) {
                 new MethodAnnotationService(writeService).generateMethodAnnotation((PsiMethod) psiElement, operation);
+
+                if (psiFile instanceof PsiJavaFile javaFile) {
+                    // 导包
+                    addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.Operation");
+                }
             }
 
             if (psiElement instanceof PsiField) {
@@ -77,13 +110,13 @@ public class CodeGeneratorService {
         });
     }
 
-    public void addImportStatement(Project project, PsiJavaFile javaFile) {
+    public void addImportStatement(Project project, PsiJavaFile javaFile, String clazzRef) {
         PsiElementFactory elementFactory = JavaPsiFacade.getElementFactory(project);
         PsiImportList importList = javaFile.getImportList();
 
         if (importList != null) {
             PsiClass schemaClass = JavaPsiFacade.getInstance(project)
-                    .findClass("io.swagger.v3.oas.annotations.media.Schema", GlobalSearchScope.allScope(project));
+                    .findClass(clazzRef, GlobalSearchScope.allScope(project));
 
             if (schemaClass != null && !isImported(importList, schemaClass)) {
                 PsiImportStatement importStatement = elementFactory.createImportStatement(schemaClass);
@@ -102,4 +135,5 @@ public class CodeGeneratorService {
         }
         return false;
     }
+
 }
