@@ -1,11 +1,10 @@
 <idea-plugin>
-    <id>com.gustavo.swagger3.generate</id>
-    <name>Swagger3 Generator</name>
-    <vendor email="mr.guihu@gmail.com">HU</vendor>
+    <id>com.hugui.swagger3.tool</id>
+    <name>Swagger3 Tool</name>
+    <vendor email="mr.guihu@gmail.com">hu</vendor>
     <description><![CDATA[
 
-    <h1>Java Swagger3 Generator Plugin</h1>
-    <h2> Support for Spring, JAX-RS, PlayFramework, and other Java frameworks</h2>
+    <h1>Swagger3 Annotation Generator Plugin</h1>
     <br/>
     <b>Features</b>
         <ul>
@@ -20,21 +19,6 @@
             <li>Integrate with Baidu Translate</li>
             <li>Support automatic import of jar packages</li>
         </ul>
-        <b> Spring and JAX-RS support - SwaggerGenerate Action </b>
-        <p> By default running SwaggerGenerate Action it will identify any corresponding annotation and generate the correct Swagger
-        <ul>
-            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/GET.html">@GET </a></li>
-            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/POST.html">@POST </a></li>
-            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/PUT.html">@PUT </a></li>
-            <li><a href="https://docs.oracle.com/javaee%2F7%2Fapi%2F%2F/javax/ws/rs/DELETE.html">@DELETE </a></li>
-        </ul>
-        <b>Spring support - Swagger Action </b>
-        <ul>
-            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/GetMapping.html">@GetMapping </a></li>
-            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PostMapping.html">@PostMapping </a></li>
-            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/PutMapping.html">@PutMapping </a></li>
-            <li><a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/bind/annotation/DeleteMapping.html">@DeleteMapping </a></li>
-        </ul>
 
         <b>Getting Started</b>
         <li>Mac CMD + N or Windows CTRL + N</li>
@@ -45,9 +29,9 @@
     <depends>com.intellij.modules.java</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable parentId="tools" instance="com.gustavo.setting.AppSettingsConfigurable"
+        <applicationConfigurable parentId="other settings" instance="com.gustavo.setting.AppSettingsConfigurable"
                                  id="com.gustavo.setting.AppSettingsConfigurable"
-                                 displayName="Swagger3 Generate Setting"/>
+                                 displayName="Swagger3 Tools Setting"/>
         <applicationService serviceImplementation="com.gustavo.setting.AppSettingsState"/>
     </extensions>
 
@@ -57,7 +41,7 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
-        <action id="SwaggerToolActionSimple" class="com.gustavo.action.SwaggerActionHttpSimple" text="Swagger Simple"
+        <action id="SwaggerToolActionSimple" class="com.gustavo.action.SwaggerActionHttpSimple" text="Swagger Single"
                 description="SwaggerToolActionSimple">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>

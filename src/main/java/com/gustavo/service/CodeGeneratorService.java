@@ -1,11 +1,19 @@
 package com.gustavo.service;
 
+import com.google.common.base.Strings;
 import com.gustavo.action.SwaggerToolAction;
+import com.gustavo.utils.BaiduTranslate;
+import com.gustavo.utils.CommonUtil;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
+import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.search.GlobalSearchScope;
+import org.apache.commons.compress.utils.Lists;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class CodeGeneratorService {
@@ -36,9 +44,10 @@ public class CodeGeneratorService {
                     addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.tags.Tag");
                     addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.Operation");
                 }
-                    return;
+                return;
             }
 
+            // 类属性列表
             PsiField[] field = psiClass.getAllFields();
             for (PsiField psiField : field) {
                 if ("serialVersionUID".equals(psiField.getName())) {
@@ -54,28 +63,58 @@ public class CodeGeneratorService {
                     }
                 }
                 if (!hasSchema) {
-                    new FieldAnnotationService(writeService).generateFieldAnnotation(project, psiField);
+                    new FieldAnnotationService(writeService).generateFieldAnnotation(psiField);
                 }
             }
             if (psiFile instanceof PsiJavaFile javaFile) {
                 // 导包
                 addImportStatement(project, javaFile, "io.swagger.v3.oas.annotations.media.Schema");
 
-                String description = psiClass.getName();
+                String description = "";
                 // 获取类上的所有注解
                 PsiAnnotation[] annotations = psiClass.getAnnotations();
-                for (PsiAnnotation annotation : annotations) {
-                    if ("io.swagger.annotations.ApiModel".equals(annotation.getQualifiedName())) {
-                        PsiAnnotationMemberValue value = annotation.findAttributeValue("value");
-                        if (value instanceof PsiLiteralExpression) {
-                            description = Objects.requireNonNull(((PsiLiteralExpression) value).getValue()).toString();
-                        }
-                        break;
-                    }
-                }
 
-                // 加注解
-                writeService.doWrite("Schema", "io.swagger.v3.oas.annotations.media.Schema", "@Schema(" + "description = " + "\"" + description + "\"", psiClass);
+                boolean hasSchema = Arrays.stream(annotations).anyMatch(t -> "io.swagger.v3.oas.annotations.media.Schema".equals(t.getQualifiedName()));
+                if (!hasSchema) {
+                    for (PsiAnnotation annotation : annotations) {
+                        if ("io.swagger.annotations.ApiModel".equals(annotation.getQualifiedName())) {
+                            PsiAnnotationMemberValue value = annotation.findAttributeValue("value");
+                            if (value instanceof PsiLiteralExpression) {
+                                description = Objects.requireNonNull(((PsiLiteralExpression) value).getValue()).toString();
+                            }
+                            break;
+                        }
+                    }
+                    PsiDocComment docComment = psiClass.getDocComment();
+                    if (docComment != null) {
+                        String commentText = CommonUtil.getDocCommentText(docComment);
+                        description = Strings.isNullOrEmpty(commentText) ? description : commentText;
+                    }
+                    if (Strings.isNullOrEmpty(description)) {
+                        try {
+                            String convertedName = CommonUtil.camelCaseToSpaceSeparated(psiClass.getName());
+                            description = BaiduTranslate.translate(convertedName);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (NoSuchAlgorithmException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    // 加注解
+                    writeService.doWrite("Schema", "io.swagger.v3.oas.annotations.media.Schema", "@Schema(" + "description = " + "\"" + description + "\"", psiClass);
+                }
+            }
+
+            // 处理内部类
+            PsiClass[] innerClasses = psiClass.getInnerClasses();
+            if (innerClasses.length > 0) {
+                for (PsiClass innerClass : innerClasses) {
+                    boolean isEnum = innerClass.isEnum();
+                    if (isEnum) {
+                        continue;
+                    }
+                    new CodeGeneratorService(project, innerClass, psiFile).generate();
+                }
             }
         });
     }
@@ -104,7 +143,7 @@ public class CodeGeneratorService {
             }
 
             if (psiElement instanceof PsiField) {
-                new FieldAnnotationService(writeService).generateFieldAnnotation(project, (PsiField) psiElement);
+                new FieldAnnotationService(writeService).generateFieldAnnotation((PsiField) psiElement);
             }
 
         });

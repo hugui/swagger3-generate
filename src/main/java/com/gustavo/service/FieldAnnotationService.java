@@ -27,11 +27,11 @@ public class FieldAnnotationService {
         this.annotationWriteService = annotationWriteService;
     }
 
-    public void generateFieldAnnotation(Project project, PsiField psiField) {
+    public void generateFieldAnnotation(PsiField psiField) {
         PsiDocComment docComment = psiField.getDocComment();
         String commentText = "";
         if (docComment != null) {
-            commentText = getDocCommentText(docComment);
+            commentText = CommonUtil.getDocCommentText(docComment);
         }
         // 判断是否有 @ApiModelProperty 注解
         String apiModelPropertyValue = getApiModelPropertyValue(psiField);
@@ -153,13 +153,4 @@ public class FieldAnnotationService {
         return annotations.anyMatch(a -> a.getQualifiedName() != null && (a.getQualifiedName().contains("javax.validation") || a.getQualifiedName().contains("jakarta.validation")));
     }
 
-    private String getDocCommentText(PsiDocComment docComment) {
-        StringBuilder commentText = new StringBuilder();
-        for (PsiElement element : docComment.getDescriptionElements()) {
-            if (element instanceof PsiDocToken) {
-                commentText.append(element.getText());
-            }
-        }
-        return commentText.toString().trim();
-    }
 }

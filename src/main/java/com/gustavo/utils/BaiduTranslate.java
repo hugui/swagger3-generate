@@ -13,8 +13,8 @@ import com.google.gson.*;
 import com.gustavo.setting.AppSettingsState;
 
 public class BaiduTranslate {
-    private static final String APP_ID = ""; // 替换成你的百度翻译 API Key
-    private static final String SECRET_KEY = ""; // 替换成你的百度翻译 Secret Key
+    private static final String APP_ID = "20210610000859390";
+    private static final String SECRET_KEY = "JKSSJF5D4EMBZNw4p2Yf";
     private static final String from = "en"; // 源语言，这里是英文
     private static final String to = "zh"; // 目标语言，这里是中文
 

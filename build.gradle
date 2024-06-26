@@ -3,7 +3,7 @@ plugins {
     id 'java'
 }
 
-group 'com.gustavo'
+group 'com.hugui'
 version '0.1.0'
 
 repositories {
