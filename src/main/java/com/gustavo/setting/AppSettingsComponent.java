@@ -23,8 +23,8 @@ public class AppSettingsComponent {
 
     public AppSettingsComponent() {
         myMainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(new JBLabel("百度翻译APPID"), appidText)
-                .addLabeledComponent(new JBLabel("百度翻译秘钥"), secretKeyText)
+                .addLabeledComponent(new JBLabel("Baidu Translate AppId"), appidText)
+                .addLabeledComponent(new JBLabel("Baidu Translate Secret Key"), secretKeyText)
 //                .addLabeledComponent(new JBLabel("Enter user name: "), myUserNameText, 1, false)
 //                .addComponent(myIdeaUserStatus, 1)
 //                .addComponent(fanyi, 1)
