@@ -8,30 +8,27 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.google.common.base.Strings;
 import com.google.gson.*;
-import com.gustavo.setting.AppSettingsState;
 
 public class BaiduTranslate {
-    private static final String APP_ID = "";
-    private static final String SECRET_KEY = "";
+    private static final String APP_ID = "20210610000859390";
+    private static final String SECRET_KEY = "JKSSJF5D4EMBZNw4p2Yf";
     private static final String from = "en"; // 源语言，这里是英文
     private static final String to = "zh"; // 目标语言，这里是中文
 
-    public static String translate(String query) throws IOException, NoSuchAlgorithmException {
-        AppSettingsState appSettingsState = AppSettingsState.getInstance();
-        if (appSettingsState == null || Strings.isNullOrEmpty(appSettingsState.appid) || Strings.isNullOrEmpty(appSettingsState.secretKey)) {
-            return query;
+    public static void main(String[] args) {
+        String translate = null;
+        try {
+            translate = translate("class key", APP_ID, SECRET_KEY);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
-        String appid = appSettingsState.getState().appid;
-        String secretKey = appSettingsState.getState().secretKey;
-        if (Strings.isNullOrEmpty(appid)) {
-            appid = APP_ID;
-        }
-        if (Strings.isNullOrEmpty(secretKey)) {
-            secretKey = SECRET_KEY;
-        }
+        System.out.println(translate);
+    }
 
+    public static String translate(String query,String appid,String secretKey) throws IOException, NoSuchAlgorithmException {
         String apiUrl = "http://api.fanyi.baidu.com/api/trans/vip/translate";
         String salt = String.valueOf(System.currentTimeMillis());
         String sign = generateSign(appid, query, salt, secretKey);

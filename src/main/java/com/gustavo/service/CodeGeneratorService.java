@@ -2,6 +2,7 @@ package com.gustavo.service;
 
 import com.google.common.base.Strings;
 import com.gustavo.action.SwaggerToolAction;
+import com.gustavo.setting.AppSettingsState;
 import com.gustavo.utils.BaiduTranslate;
 import com.gustavo.utils.CommonUtil;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -93,7 +94,15 @@ public class CodeGeneratorService {
                     if (Strings.isNullOrEmpty(description)) {
                         try {
                             String convertedName = CommonUtil.camelCaseToSpaceSeparated(psiClass.getName());
-                            description = BaiduTranslate.translate(convertedName);
+                            AppSettingsState appSettingsState = AppSettingsState.getInstance();
+                            if (appSettingsState == null || Strings.isNullOrEmpty(appSettingsState.appid) || Strings.isNullOrEmpty(appSettingsState.secretKey)) {
+                                description = convertedName;
+                            } else {
+                                String appid = appSettingsState.getState().appid;
+                                String secretKey = appSettingsState.getState().secretKey;
+
+                                description = BaiduTranslate.translate(convertedName, appid, secretKey);
+                            }
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         } catch (NoSuchAlgorithmException e) {

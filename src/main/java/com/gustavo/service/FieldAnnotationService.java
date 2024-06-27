@@ -1,6 +1,7 @@
 package com.gustavo.service;
 
 import com.google.common.base.Strings;
+import com.gustavo.setting.AppSettingsState;
 import com.gustavo.utils.BaiduTranslate;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.*;
@@ -60,7 +61,15 @@ public class FieldAnnotationService {
             String fieldName = psiField.getName();
             try {
                 String convertedName = CommonUtil.camelCaseToSpaceSeparated(fieldName);
-                description = BaiduTranslate.translate(convertedName);
+                AppSettingsState appSettingsState = AppSettingsState.getInstance();
+                if (appSettingsState == null || Strings.isNullOrEmpty(appSettingsState.appid) || Strings.isNullOrEmpty(appSettingsState.secretKey)) {
+                    description = convertedName;
+                } else {
+                    String appid = appSettingsState.getState().appid;
+                    String secretKey = appSettingsState.getState().secretKey;
+
+                    description = BaiduTranslate.translate(convertedName, appid, secretKey);
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } catch (NoSuchAlgorithmException e) {
