@@ -46,6 +46,12 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
         </action>
 
+        <action id="com.example.PrintInnerClassesAction" class="com.gustavo.action.CopyAdaptorToClipboardAction"
+                text="Copy Adaptor To Clipboard" description="copy adaptor code to clipboard">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
+
         <!--<action id="SwaggerToolActionGET" class="com.gustavo.action.SwaggerActionHttpGet" text="Swagger GET"
                 description="Create relative swagger annotations for current cursor selection">
             <add-to-group group-id="GenerateGroup" anchor="first"/>

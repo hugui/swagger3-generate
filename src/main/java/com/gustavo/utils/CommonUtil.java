@@ -22,6 +22,12 @@ public class CommonUtil {
         return commentText.toString().trim();
     }
 
+    public static String firstLetterToLowerCase(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return Character.toLowerCase(str.charAt(0)) + str.substring(1);
+    }
 
     public static void main(String[] args) {
         String s = "camelCaseToSpaceSeparated";
