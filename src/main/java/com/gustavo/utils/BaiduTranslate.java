@@ -13,14 +13,16 @@ import com.google.gson.*;
 import com.gustavo.setting.AppSettingsState;
 
 public class BaiduTranslate {
-    private static final String APP_ID = "20210610000859390";
-    private static final String SECRET_KEY = "JKSSJF5D4EMBZNw4p2Yf";
+    private static final String APP_ID = "";
+    private static final String SECRET_KEY = "";
     private static final String from = "en"; // 源语言，这里是英文
     private static final String to = "zh"; // 目标语言，这里是中文
 
     public static String translate(String query) throws IOException, NoSuchAlgorithmException {
         AppSettingsState appSettingsState = AppSettingsState.getInstance();
-
+        if (appSettingsState == null || Strings.isNullOrEmpty(appSettingsState.appid) || Strings.isNullOrEmpty(appSettingsState.secretKey)) {
+            return query;
+        }
         String appid = appSettingsState.getState().appid;
         String secretKey = appSettingsState.getState().secretKey;
         if (Strings.isNullOrEmpty(appid)) {
